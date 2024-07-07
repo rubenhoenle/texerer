@@ -16,6 +16,8 @@
         inherit system;
       };
       treefmtEval = treefmt-nix.lib.evalModule pkgs ./treefmt.nix;
+
+      idea = pkgs.jetbrains.idea-community-bin;
     in
     {
       formatter.${system} = treefmtEval.config.build.wrapper;
@@ -26,9 +28,14 @@
           quarkus
           detekt
           jdk22
-          jetbrains.idea-community-bin
+          texlive.combined.scheme-full
         ];
       };
 
+      packages.${system} = {
+        idea = pkgs.writeShellScriptBin "texerer-idea" ''
+          ${idea}/bin/idea-community >/dev/null 2>&1 & "''${@:1}"
+        '';
+      };
     };
 }
