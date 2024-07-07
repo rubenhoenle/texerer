@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id 'io.quarkus'
+    id 'org.jetbrains.kotlin.jvm'
 }
 
 repositories {
@@ -9,20 +10,20 @@ repositories {
 }
 
 dependencies {
+    implementation 'io.quarkus:quarkus-kotlin'
     implementation enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}")
     implementation 'io.quarkus:quarkus-rest'
     implementation 'io.quarkus:quarkus-rest-jackson'
     implementation 'io.quarkus:quarkus-arc'
     testImplementation 'io.quarkus:quarkus-junit5'
     testImplementation 'io.rest-assured:rest-assured'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
 }
 
 group 'com.github.rubenhoenle'
 version '1.0.0-SNAPSHOT'
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_22
-    targetCompatibility = JavaVersion.VERSION_22
 }
 
 test {
@@ -35,4 +36,7 @@ compileJava {
 
 compileTestJava {
     options.encoding = 'UTF-8'
+}
+kotlin {
+    jvmToolchain(22)
 }

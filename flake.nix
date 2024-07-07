@@ -26,6 +26,7 @@
           quarkus
           detekt
           jdk22
+          jetbrains.idea-community-bin
         ];
       };
 
