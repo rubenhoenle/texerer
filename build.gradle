@@ -18,6 +18,7 @@ dependencies {
     testImplementation 'io.quarkus:quarkus-junit5'
     testImplementation 'io.rest-assured:rest-assured'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    implementation "org.eclipse.jgit:org.eclipse.jgit:6.10.0.202406032230-r"
 }
 
 group 'com.github.rubenhoenle'

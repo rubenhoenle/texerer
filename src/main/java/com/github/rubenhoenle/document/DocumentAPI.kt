@@ -1,4 +1,4 @@
-package com.github.rubenhoenle;
+package com.github.rubenhoenle.document;
 
 import jakarta.inject.Inject
 import jakarta.ws.rs.GET;
@@ -11,22 +11,22 @@ import jakarta.ws.rs.core.Response.ResponseBuilder
 import java.io.File
 
 @Path("/document")
-class Document() {
+class DocumentAPI() {
     @Inject
     private var documentRenderer : DocumentRenderer? = null
 
     @GET
     @Path("/render")
     @Produces(MediaType.TEXT_PLAIN)
-    fun renderDocument(): String {
-        return "Hello from Quarkus REST " + documentRenderer!!.renderDocument()
+    suspend fun renderDocument(): String {
+        return documentRenderer!!.renderDocument()
     }
 
     @GET
     @Path("/instant")
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
-    fun renderAndDownloadDocument(): Response {
-        var uuid = documentRenderer!!.renderDocument()
+    suspend fun renderAndDownloadDocument(): Response {
+        val uuid = documentRenderer!!.renderDocumentBlocking()
         return downloadDocument(uuid)
     }
 
