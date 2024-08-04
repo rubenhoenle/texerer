@@ -9,19 +9,11 @@ import java.io.File
 * author: ruben.hoenle
 * date: 03-AUG-2024
 * */
-class Template(val id: String, val description: String = "", val gitUrl: String, val texFile: String = "main.tex") {
-    private var placeholders: MutableList<TemplatePlaceholder> = mutableListOf()
+class Template(val description: String = "", val gitUrl: String, val texFile: String = "main.tex") {
+    private val placeholders: MutableList<TemplatePlaceholder> = mutableListOf()
 
     private fun extractPlaceholders() {
-
-    }
-
-    private fun getTemplateDirectory(templateProvider: TemplateProvider): File {
-       return File(templateProvider.getTemplatesDirectory(), id)
-    }
-
-    fun getTemplateFile(templateProvider: TemplateProvider): File {
-        return File(getTemplateDirectory(templateProvider), texFile)
+        TODO()
     }
 
     fun getPlaceholders(): List<TemplatePlaceholder> {

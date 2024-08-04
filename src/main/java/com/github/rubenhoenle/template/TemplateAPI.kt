@@ -16,8 +16,7 @@ class TemplateAPI() {
     private lateinit var templateProvider : TemplateProvider
 
     @GET
-    @Produces(MediaType.TEXT_PLAIN)
-    fun getTemplateList(): List<String> {
-        return templateProvider.getTemplates().mapTo(arrayListOf()) { it.id }
+    fun listTemplates(): Map<String, Template> {
+        return templateProvider.getTemplates()
     }
 }

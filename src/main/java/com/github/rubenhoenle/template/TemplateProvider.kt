@@ -18,7 +18,7 @@ import org.eclipse.microprofile.config.ConfigProvider
 * */
 @ApplicationScoped
 class TemplateProvider {
-    private var templates = listOf<Template>()
+    private var templates = mapOf<String, Template>()
 
     @ConfigProperty(name = "templates.location")
     lateinit var templatesDirectoryPath: String
@@ -30,10 +30,10 @@ class TemplateProvider {
         println(templatesDirectoryPath)
         templates = getImportTemplatesConfiguration()
         cleanupTemplateDirectory()
-        templates.forEach { cloneGitTemplate(it) }
+        templates.forEach { cloneGitTemplate(it.key, it.value) }
     }
 
-    fun getTemplates(): List<Template> {
+    fun getTemplates(): Map<String, Template> {
         return templates
     }
 
@@ -48,8 +48,8 @@ class TemplateProvider {
         directory.mkdirs()
     }
 
-    private fun cloneGitTemplate(template: Template) {
-        val localPath = templatesDirectoryPath + "/" + template.id
+    private fun cloneGitTemplate(id: String, template: Template) {
+        val localPath = templatesDirectoryPath + "/" + id
         return try {
             println(template.gitUrl)
             println(File(localPath).absolutePath)
@@ -65,9 +65,9 @@ class TemplateProvider {
         }
     }
 
-    private fun getImportTemplatesConfiguration(): List<Template> {
+    private fun getImportTemplatesConfiguration(): Map<String, Template> {
         val config = ConfigProvider.getConfig()
-        val templates = mutableListOf<Template>()
+        val templates = mutableMapOf<String, Template>()
 
         // Find all property names with the prefix "templates.import"
         val templateNames = config.propertyNames
@@ -86,7 +86,7 @@ class TemplateProvider {
             val url = config.getValue(urlKey, String::class.java)
             val texfile = config.getValue(texfileKey, String::class.java)
 
-            templates.add(Template(templateName, description, url, texfile))
+            templates[templateName] = Template(description, url, texfile)
         }
 
         return templates
