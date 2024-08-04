@@ -1,5 +1,14 @@
 # texerer
 
+```bash
+# enter dev shell
+nix develop
+
+# open the project in IntelliJ idea
+nix run .#idea # if you don't have idea installed on your system
+nix run .#idea-local # if you don't have idea installed on your system
+```
+
 This project uses Quarkus, the Supersonic Subatomic Java Framework.
 
 If you want to learn more about Quarkus, please visit its website: https://quarkus.io/ .

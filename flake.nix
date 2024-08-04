@@ -18,6 +18,7 @@
       treefmtEval = treefmt-nix.lib.evalModule pkgs ./treefmt.nix;
 
       idea = pkgs.jetbrains.idea-community-bin;
+      jdk = pkgs.jdk22;
     in
     {
       formatter.${system} = treefmtEval.config.build.wrapper;
@@ -27,14 +28,19 @@
         packages = with pkgs; [
           quarkus
           detekt
-          jdk22
+          jdk
           texlive.combined.scheme-full
         ];
       };
 
       packages.${system} = {
+        idea-local = pkgs.writeShellScriptBin "texerer-idea-local" ''
+          export JAVA_HOME="${jdk.home}"
+          idea-community . >/dev/null 2>&1 & "''${@:1}"
+        '';
         idea = pkgs.writeShellScriptBin "texerer-idea" ''
-          ${idea}/bin/idea-community >/dev/null 2>&1 & "''${@:1}"
+          export JAVA_HOME="${jdk.home}"
+          ${idea}/bin/idea-community . >/dev/null 2>&1 & "''${@:1}"
         '';
       };
     };
